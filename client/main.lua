@@ -6,9 +6,9 @@ local VehicleSpawn2 = vector3(-2075.888183593, -233.73908996580, 21.10)
 local VehicleSpawn3 = vector3(-972.1781616210, -1530.9045410150, 4.890)
 local VehicleSpawn4 = vector3(798.18426513672, -1799.8173828125, 29.33)
 local VehicleSpawn5 = vector3(1247.0718994141, -344.65634155273, 69.08)
-local DriverWep = "WEAPON_MICROSMG" 		--<< the weapon the driver is to be equipped with
-local NavWep = "WEAPON_MICROSMG"  			--<< the weapon the guard should be equipped with
-local TimeToBlow = 30 * 1000 				--<< bomb detonation time after planting, default 20 seconds
+local DriverWep = "weapon_pumpshotgun" 		--<< the weapon the driver is to be equipped with
+local NavWep = "weapon_pumpshotgun"  			--<< the weapon the guard should be equipped with
+local TimeToBlow = 40 * 1000 				--<< bomb detonation time after planting, default 20 seconds
 local PickupMoney = 0
 local BlowBackdoor = 0
 local SilenceAlarm = 0
@@ -275,29 +275,33 @@ BeginTextCommandSetBlipName("STRING")
 AddTextComponentString('Van with Cash')
 EndTextCommandSetBlipName(TruckBlip)
 --
-RequestModel("s_m_m_security_01")
-while not HasModelLoaded("s_m_m_security_01") do
+RequestModel("s_m_m_armoured_01")
+while not HasModelLoaded("s_m_m_armoured_01") do
 	Wait(10)
 end
-pilot = CreatePed(26, "s_m_m_security_01", VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 268.9422, true, false)
-navigator = CreatePed(26, "s_m_m_security_01", VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 268.9422, true, false)
+pilot = CreatePed(26, "s_m_m_armoured_01", VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 268.9422, true, false)
+navigator = CreatePed(26, "s_m_m_armoured_01", VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 268.9422, true, false)
 SetPedIntoVehicle(pilot, transport, -1)
 SetPedIntoVehicle(navigator, transport, 0)
 SetPedFleeAttributes(pilot, 0, 0)
 SetPedCombatAttributes(pilot, 46, 1)
-SetPedCombatAbility(pilot, 100)
+SetPedCombatAbility(pilot, 102)
 SetPedCombatMovement(pilot, 2)
 SetPedCombatRange(pilot, 2)
 SetPedKeepTask(pilot, true)
+SetPedArmour(pilot, 500)
+SetPedSuffersCriticalHits(pilot, false)
 GiveWeaponToPed(pilot, GetHashKey(DriverWep),250,false,true)
 SetPedAsCop(pilot, true)
 --
 SetPedFleeAttributes(navigator, 0, 0)
 SetPedCombatAttributes(navigator, 46, 1)
-SetPedCombatAbility(navigator, 100)
+SetPedCombatAbility(navigator, 102)
 SetPedCombatMovement(navigator, 2)
 SetPedCombatRange(navigator, 2)
 SetPedKeepTask(navigator, true)
+SetPedArmour(navigator, 500)
+SetPedSuffersCriticalHits(navigator, false)
 TaskEnterVehicle(navigator,transport,-1,0,1.0,1)
 GiveWeaponToPed(navigator, GetHashKey(NavWep),250,false,true)
 SetPedAsCop(navigator, true)
